@@ -110,7 +110,7 @@ class Inspection(db.Model):
     date = db.Column(db.Date, nullable=False)
     type = db.Column(db.String(50), nullable=False)
     result = db.Column(db.String(25), nullable=False, default='pending')
-    notes = db.Column(db.Text, nullable=False)
+    notes = db.Column(db.Text)
     to_close = db.Column(db.Boolean, nullable=False, default=False)
     at_fault = db.Column (db.Boolean)
 
@@ -139,8 +139,8 @@ class Bd_contact(db.Model):
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     title = db.Column(db.String(150))
-    cell_phone = db.Column(db.String)
-    office_phone = db.Column(db.String)
+    cell_phone = db.Column(db.String(20))
+    office_phone = db.Column(db.String(20))
     email = db.Column(db.String(150))
     notes = db.Column(db.Text)
 
@@ -166,9 +166,11 @@ class Inspection_sitter(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
+    phone = db.Column(db.String(20))
+    email = db.Column(db.String(50))
 
     def __repr__(self):
         """Representation of inspection sitter"""
 
         s = self
-        return f"Inspection_sitter<inspection_sitter id={s.id}, first_name={s.first_name}, last_name={s.last_name}>"
+        return f"Inspection_sitter<inspection_sitter id={s.id}, first_name={s.first_name}, last_name={s.last_name}, phone={s.phone}, email={s.email}>"
