@@ -1,0 +1,19 @@
+body {
+    background-image: url('/static/images/solar-panels-roof-solar-cell.jpg');
+    background-size: cover;
+}
+
+.cards_div {
+    margin-top: 5rem;
+}
+
+.index_card {
+    opacity: 0.9;
+    width: 18rem;
+    height: 24rem;
+}
+
+.index_card.empty {
+    opacity:0;
+}
+

@@ -16,5 +16,15 @@ connect_db(app)
 
 @app.route('/')
 def show_home():
-    """tesking to make sure app is connected"""
+    """Show home page"""
     return render_template('index.html')
+
+@app.route('/inspection_scheduling')
+def show_inspection_scheduling():
+    """Show inspection scheduling options"""
+    return render_template('inspection_scheduling.html')
+
+@app.route('/dashboard')
+def show_dashboard():
+    """Show inspections dashboard"""
+    return render_template('dashboard.html')

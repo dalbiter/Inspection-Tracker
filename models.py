@@ -6,8 +6,7 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 
-"""
-    Create seed for each table in db
+""" Consider deletion behavior
     Double check constraints
     Double check relationships 
     Double check class name, table name, data type, nulls 
@@ -19,7 +18,7 @@ class Building_dept(db.Model):
 
     __tablename__ = "building_depts"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True) #u u id
     state = db.Column(db.String(2), nullable=False)
     county = db.Column(db.String(100), nullable=False)
     city = db.Column(db.String(100), nullable=False)
@@ -128,6 +127,14 @@ class Inspection(db.Model):
                                          notes={i.notes},
                                          to_close={i.to_close},
                                          at_fault={i.at_fault}>"""
+    
+    @classmethod    
+    def get_to_close(cls, team_id=None):
+        """Gets a list of all inspections that are to close, can be filtered by team_id"""
+        if(team_id):
+            return cls.query.filter_by(to_close=True, team_id=team_id).all()
+        else:
+           return cls.query.filter_by(to_close=True).all()
     
 class Bd_contact(db.Model):
     """Building department Contact"""

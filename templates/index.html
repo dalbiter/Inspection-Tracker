@@ -1,11 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New App</title>
-</head>
-<body>
-    <h1>Hello from the new app!</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %} Inspection Tracker{% endblock %}
+
+{% block content %} 
+
+    <div class="container text-center" id="header">
+        <h1 class="text-white">Inspection Tracker&#174</h1>
+    </div>
+
+    <div class="container text-center cards_div">
+        <div class="row">
+            <div class="col">
+                <div class="card index_card border shadow">
+                    <img src="/static/images/inspection_card_img.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Inspection Scheduling</h5>
+                        <p class="card-text">To create or view schedules click below</p>
+                        <a href="/inspection_scheduling" class="btn btn-secondary">Scheduling</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card index_card">
+                    <img src="/static/images/dashboard_card_img.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Dashboard</h5>
+                        <p class="card-text">To view inspection reports and analysis click below</p>
+                        <a href="/dashboard" class="btn btn-secondary">Go to Reports</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock%}
