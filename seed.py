@@ -88,31 +88,37 @@ p_westerberg = Project(client_id=5, bd_id=5, job_number=23107198, job_link='http
 
 i_papa = Inspection(team_id=1, 
                     project_id=1,
-                    date='2024-03-11',
+                    date='2024-03-13',
                     type='service change')
 
 i_purcell = Inspection(team_id=1, 
                     sitter_id=1,
                     project_id=2,
-                    date='2024-03-11',
+                    date='2024-03-13',
                     type='final electrical',
                     result='pass',
                     to_close=True)
 
 i_mcgee = Inspection(team_id=1, 
                     project_id=3,
-                    date='2024-03-11',
+                    date='2024-03-14',
                     type='rough electrical')
 
 i_king = Inspection(team_id=2, 
                     project_id=4,
-                    date='2024-03-12',
+                    date='2024-03-15',
                     type='final electrical',
-                    notes='final building after')
+                    notes='final building after, but there may also be a final fire inspection')
+
+i_king2 = Inspection(team_id=2, 
+                    project_id=4,
+                    date='2024-03-15',
+                    type='rough electrical',
+                    notes='final building after, but there may also be a final fire inspection')
 
 i_westerberg = Inspection(team_id=1, 
                     project_id=5,
-                    date='2024-03-12',
+                    date='2024-03-13',
                     type='final electrical',
                     result='fail',
                     notes='need tech on site',
@@ -163,10 +169,9 @@ db.session.add(jairo)
 db.session.commit()
 
 #add and commit all inspections
-db.session.add_all([i_papa, i_purcell, i_mcgee, i_king, i_westerberg])
+db.session.add_all([i_papa, i_purcell, i_mcgee, i_king, i_king2, i_westerberg])
 db.session.commit()
 
 #add and commit all bd contacts
 db.session.add_all([ron, sal])
 db.session.commit()
-

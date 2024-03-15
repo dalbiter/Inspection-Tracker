@@ -3,17 +3,27 @@ body {
     background-size: cover;
 }
 
+/* cards on index.html styling */
 .cards_div {
     margin-top: 5rem;
 }
 
-.index_card {
-    opacity: 0.9;
-    width: 18rem;
-    height: 24rem;
+.index_card {   
+    width: 15rem;
+    height: 20rem;
+    margin-top: 1rem;
 }
 
-.index_card.empty {
-    opacity:0;
+#schedule_div {
+    opacity: 0.9;
+}
+
+.card-img-top {
+    height: 9rem;
+    object-fit: cover;
+}
+
+.container {
+    opacity: 0.9;
 }
 

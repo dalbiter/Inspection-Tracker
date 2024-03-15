@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %} {{bd.name}}  {% endblock %}
+
+{% block content %}
+
+<div class="container text-center mt-4" id="header">
+    <h1 class="text-white">{{bd.name.title()}} Details</h1>
+</div>
+
+<div class="container bg-white mt-3">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Name: </strong>{{bd.name.title()}}</li>
+        <li class="list-group-item"><strong>State: </strong>{{bd.state.upper()}}</li>
+        <li class="list-group-item"><strong>County: </strong>{{bd.county.title()}}</li>
+        <li class="list-group-item"><strong>Rough Required?: </strong>{{bd.rough_required}}</li>
+        <li class="list-group-item"><strong>PE Certification Rquired?: </strong>{{bd.pe_cert_required}}</li>
+        {% if bd.type_of_pe_cert %}
+        <li class="list-group-item">
+            <strong>Type of PE Certification: </strong>{{bd.type_of_pe_cert.title()}}
+        </li>
+        {% else %}
+        <li class="list-group-item">
+            <strong>Type of PE Certification: </strong>N/A
+        </li>
+        {% endif %}
+        <li class="list-group-item"><strong>PE Certification Notes: </strong>{{bd.pe_cert_notes}}</li>
+        <li class="list-group-item"><strong>Shutdown Procedure: </strong>{{bd.shutdown_procedure}}</li>
+        <li class="list-group-item"><strong>Building Dept Website: </strong><a href="{{bd.website}}" target="_blank">{{bd.website}}</a></li>
+        <li class="list-group-item"><strong>Inspection Portal: </strong><a href="{{bd.inspection_portal}}" target="_blank">{{bd.inspection_portal}}</a></li>
+        <li class="list-group-item"><strong>Contact List: </strong><a href="{{bd.contact_list}}" target="_blank">{{bd.contact_list}}</a></li>
+        <li class="list-group-item"><strong>Notes: </strong>{{bd.notes}}</li>
+    </ul>
+    <form>
+        <div class="pb-2">
+            <button class="btn btn-secondary" formaction="/building_depts">Back to list</button>
+            <button class="btn btn-info" formaction="/building_depts/{{bd.id}}/edit">Edit</button>
+        </div>
+    </form>
+    
+</div>
+
+{% endblock %}

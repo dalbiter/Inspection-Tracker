@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Schedule for {{schedule_date}}
+{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center text-white mt-2 mb-5">Schedule for {{schedule_date}}</h1>
+
+    <div class="container text-center" id="schedule_div">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col"><strong>Installation Team</strong></th>
+                    <th scope="col"><strong>Client Name</strong></th>
+                    <th scope="col"><strong>Inspection Date</strong></th>
+                    <th scope="col"><strong>Building Dept</strong></th>
+                    <th scope="col"><strong>Type of Inspection</strong></th>
+                    <th scope="col"><strong>To close?</strong></th>
+                    <th scope="col"><strong>Result</strong></th>
+                    <th scope="col"><strong>Notes</strong></th>
+                    <th scope="col"><strong></strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inspection in inspections %}
+                <tr>
+                    <td>{{inspection.installation_team.team_name.title()}}</td>    
+                    <td><a href="/clients/{{inspection.project.client.id}}">{{inspection.project.client.get_full_name()}}</a></td>    
+                    <td>{{inspection.date}}</td>    
+                    <td><a href="/building_depts/{{inspection.project.building_dept.id}}">{{inspection.project.building_dept.name.title()}}</a></td>    
+                    <td>{{inspection.type.title()}}</td>    
+                    <td>{{inspection.to_close}}</td>    
+                    <td>{{inspection.result.title()}}</td>
+                    <td>{{inspection.notes}}</td>
+                    <td><a href="/update_db">Edit</a></td>     
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

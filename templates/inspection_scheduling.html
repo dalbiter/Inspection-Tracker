@@ -5,8 +5,51 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="container text-center" id="header">
     <h1 class="text-white">Scheduling page Under Construction</h1>
 </div>
+
+<div class="container text-center cards_div">
+    <div class="row">
+        <div class="col">
+            <div class="card index_card border shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Add a new inspection</h5>
+                    <p class="card-text">Add a new inspection to the schedule</p>
+                    <a href="/inspection_scheduling" class="btn btn-secondary">Add</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card index_card">
+                <div class="card-body">
+                    <h5 class="card-title">Yesterday's Inspection Schedule</h5>
+                    <p class="card-text">View yesterday's inspection schedule</p>
+                    <a href="/yesterdays_schedule" class="btn btn-secondary">View Schedule</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card index_card">
+                <div class="card-body">
+                    <h5 class="card-title">Today's Inspection Schedule</h5>
+                    <p class="card-text">View today's inspection schedule</p>
+                    <a href="/todays_schedule" class="btn btn-secondary">View Schedule</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card index_card">
+                <div class="card-body">
+                    <h5 class="card-title">Tomorrow's Inspections Schedule</h5>
+                    <p class="card-text">View tomorrow's inspection schedule</p>
+                    <a href="/tomorrows_schedule" class="btn btn-secondary">View Schedule</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
     

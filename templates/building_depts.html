@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} Building Departments {% endblock %}
+
+{% block content %}
+
+<div class="container text-center mt-4" id="header">
+    <h1 class="text-white">Select a Building Dept below to view details</h1>
+</div>
+
+<div class="container bg-white mt-3" id="bd_container">
+    <div class="row">
+        <div class="col">
+            <ul>
+                {% for building_dept in building_depts %}
+                <li><a href="/building_depts/{{building_dept.id}}">{{building_dept.name.title()}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %} 

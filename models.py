@@ -1,3 +1,10 @@
+""" Consider deletion behavior
+    Double check constraints
+    Double check relationships 
+    Double check class name, table name, data type, nulls 
+    Update docs with db design notes 
+    Do models and schema png file match """
+
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -5,13 +12,6 @@ db = SQLAlchemy()
 def connect_db(app):
     db.app = app
     db.init_app(app)
-
-""" Consider deletion behavior
-    Double check constraints
-    Double check relationships 
-    Double check class name, table name, data type, nulls 
-    Update docs with db design notes """
-
 
 class Building_dept(db.Model):
     """Building Deptartment"""
@@ -32,6 +32,8 @@ class Building_dept(db.Model):
     inspection_portal = db.Column(db.String)
     contact_list = db.Column(db.String) #link to contact list in Google drive or url
     notes = db.Column(db.Text)
+
+    project = db.relationship("Project", backref='building_dept')
 
     def __repr__(self):
         """Representation of building department"""
@@ -60,6 +62,12 @@ class Client(db.Model):
     first_name = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
 
+    project = db.relationship("Project", backref='client')
+
+    
+    def get_full_name(self):
+        return f"""{self.last_name.capitalize()}, {self.first_name.capitalize()}""" 
+
     def __repr__(self):
         """Representation of client"""
 
@@ -73,6 +81,8 @@ class Installation_team(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     team_name = db.Column(db.String(100), nullable=False) #Ask Raf if we want team names or team leads 
+
+    inspection = db.relationship("Inspection", backref='installation_team')
 
     def __repr__(self):
         """Representation of installation team"""
@@ -90,6 +100,8 @@ class Project(db.Model):
     bd_id = db.Column(db.Integer, db.ForeignKey('building_depts.id'))
     job_number = db.Column(db.Integer, nullable=False)
     job_link = db.Column(db.String)
+
+    inspection = db.relationship("Inspection", backref='project')
 
     def __repr__(self):
         """Representation of project"""
@@ -127,7 +139,7 @@ class Inspection(db.Model):
                                          notes={i.notes},
                                          to_close={i.to_close},
                                          at_fault={i.at_fault}>"""
-    
+
     @classmethod    
     def get_to_close(cls, team_id=None):
         """Gets a list of all inspections that are to close, can be filtered by team_id"""
