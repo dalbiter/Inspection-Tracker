@@ -62,10 +62,10 @@ mobile = Building_dept(state='al',
 
 # add clients
 
-papa = Client(first_name='anthony', last_name='papagiorgiou')
+papa = Client(first_name='anthony', last_name='papagiorgiou', notes='Customer is having a pool built, and we need to wait until it is finished prior to inspections')
 purcell = Client(first_name='claribel', last_name='purcell')
 mcgee = Client(first_name='tad', last_name='mcgee')
-king = Client(first_name='shamel', last_name='king')
+king = Client(first_name='shamel', last_name='king', notes='customer will be out of town 4/17 - 4/21')
 westerberg = Client(first_name='lennart', last_name='westerberg')
 
 # add installation teams
@@ -78,47 +78,49 @@ hernan_p = Installation_team(team_name='hernan p')
 
 # add projects
 # don't forget to check bd_id is correct and add field status (open or closed)
-p_papa = Project(client_id=1, bd_id=1, job_number=23117251, job_link='https://app.jobnimbus.com/job/lp1a796rbav5uk8agr3kbgh')
-p_purcell = Project(client_id=2, bd_id=2, job_number=23107156, job_link='https://app.jobnimbus.com/job/lnytimj65kmw94qwau9frrh')
-p_mcgee = Project(client_id=3, bd_id=3, job_number=23117279, job_link='https://app.jobnimbus.com/job/lph4l58w1o0w0ftok4ja6s0')
-p_king = Project(client_id=4, bd_id=4, job_number=22054674, job_link='https://app.jobnimbus.com/job/l3c4g756b63qepx65ppjzwh')
-p_westerberg = Project(client_id=5, bd_id=5, job_number=23107198, job_link='https://app.jobnimbus.com/job/loemwhurezhn77qcv9qspeq')
+p_papa = Project(client_id=1, bd_id=1, job_number=23117251, job_link='https://app.jobnimbus.com/job/lp1a796rbav5uk8agr3kbgh', description='Solar and Powerwalls', kws=14.58)
+p_papa2 = Project(client_id=1, bd_id=1, job_number=24017434, job_link='https://app.jobnimbus.com/job/lrjbr2n9j8e2iv2hnlroc4n', description='additional Powerwalls')
+p_purcell = Project(client_id=2, bd_id=2, job_number=23107156, job_link='https://app.jobnimbus.com/job/lnytimj65kmw94qwau9frrh', description='Solar and Powerwalls', kws=11.75)
+p_mcgee = Project(client_id=3, bd_id=3, job_number=23117279, job_link='https://app.jobnimbus.com/job/lph4l58w1o0w0ftok4ja6s0', description='Solar and Powerwalls', kws=25.51)
+p_mcgee2 = Project(client_id=3, bd_id=3, job_number=24027518, job_link='https://app.jobnimbus.com/job/lsj7gztnssyz40idpdw370', description='Additional panels', kws=7.29)
+p_king = Project(client_id=4, bd_id=4, job_number=22054674, job_link='https://app.jobnimbus.com/job/l3c4g756b63qepx65ppjzwh', description='Solar and Powerwalls', kws=13.34)
+p_westerberg = Project(client_id=5, bd_id=5, job_number=23107198, job_link='https://app.jobnimbus.com/job/loemwhurezhn77qcv9qspeq', description='Solar and Powerwalls', kws=11.46)
 
 # add inspections
 
 i_papa = Inspection(team_id=1, 
                     project_id=1,
-                    date='2024-03-13',
+                    date='2024-03-19',
                     type='service change')
 
 i_purcell = Inspection(team_id=1, 
                     sitter_id=1,
-                    project_id=2,
-                    date='2024-03-13',
+                    project_id=3,
+                    date='2024-03-20',
                     type='final electrical',
                     result='pass',
                     to_close=True)
 
 i_mcgee = Inspection(team_id=1, 
-                    project_id=3,
-                    date='2024-03-14',
+                    project_id=4,
+                    date='2024-03-20',
                     type='rough electrical')
 
 i_king = Inspection(team_id=2, 
-                    project_id=4,
-                    date='2024-03-15',
+                    project_id=6,
+                    date='2024-03-21',
                     type='final electrical',
                     notes='final building after, but there may also be a final fire inspection')
 
 i_king2 = Inspection(team_id=2, 
-                    project_id=4,
-                    date='2024-03-15',
+                    project_id=6,
+                    date='2024-03-20',
                     type='rough electrical',
                     notes='final building after, but there may also be a final fire inspection')
 
 i_westerberg = Inspection(team_id=1, 
-                    project_id=5,
-                    date='2024-03-13',
+                    project_id=7,
+                    date='2024-03-21',
                     type='final electrical',
                     result='fail',
                     notes='need tech on site',
@@ -161,7 +163,7 @@ db.session.add_all([nidel, joe, yanick, victor, hernan_p])
 db.session.commit()
 
 #add and commit all projects
-db.session.add_all([p_papa, p_purcell, p_mcgee, p_king, p_westerberg])
+db.session.add_all([p_papa, p_papa2, p_purcell, p_mcgee, p_mcgee2, p_king, p_westerberg])
 db.session.commit()
 
 #add and commit all inspection sitters

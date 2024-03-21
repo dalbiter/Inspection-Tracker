@@ -5,7 +5,9 @@
     Update docs with db design notes 
     Do models and schema png file match """
 
+from sqlalchemy.dialects.postgresql import UUID
 from flask_sqlalchemy import SQLAlchemy
+import uuid
 
 db = SQLAlchemy()
 
@@ -18,7 +20,7 @@ class Building_dept(db.Model):
 
     __tablename__ = "building_depts"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True) #u u id
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True) # use UUID
     state = db.Column(db.String(2), nullable=False)
     county = db.Column(db.String(100), nullable=False)
     city = db.Column(db.String(100), nullable=False)
@@ -33,7 +35,7 @@ class Building_dept(db.Model):
     contact_list = db.Column(db.String) #link to contact list in Google drive or url
     notes = db.Column(db.Text)
 
-    project = db.relationship("Project", backref='building_dept')
+    projects = db.relationship("Project", backref='building_dept')
 
     def __repr__(self):
         """Representation of building department"""
@@ -52,6 +54,12 @@ class Building_dept(db.Model):
                                                inspection_portal={bd.inspection_portal},
                                                contact_list={bd.contact_list},
                                                notes={bd.notes}>"""
+    
+    @classmethod
+    def get_bds_by_state(cls, state):
+        """Takes a state abbreviation and returns a list of matching building departments"""
+
+        return cls.query.filter(cls.state.ilike(f'%{state}%')).all()
 
 class Client(db.Model):
     """Client"""
@@ -61,8 +69,9 @@ class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
+    notes = db.Column(db.Text)
 
-    project = db.relationship("Project", backref='client')
+    projects = db.relationship("Project", backref='client')
 
     
     def get_full_name(self):
@@ -100,8 +109,10 @@ class Project(db.Model):
     bd_id = db.Column(db.Integer, db.ForeignKey('building_depts.id'))
     job_number = db.Column(db.Integer, nullable=False)
     job_link = db.Column(db.String)
+    description = db.Column(db.String(150), nullable=False)
+    kws = db.Column(db.Float)
 
-    inspection = db.relationship("Inspection", backref='project')
+    inspections = db.relationship("Inspection", backref='project')
 
     def __repr__(self):
         """Representation of project"""
@@ -142,11 +153,17 @@ class Inspection(db.Model):
 
     @classmethod    
     def get_to_close(cls, team_id=None):
-        """Gets a list of all inspections that are to close, can be filtered by team_id"""
+        """Takes a team_id and gets a list of all inspections that are 'to close'"""
         if(team_id):
             return cls.query.filter_by(to_close=True, team_id=team_id).all()
         else:
            return cls.query.filter_by(to_close=True).all()
+    
+    @classmethod
+    def get_inspections(cls):
+        """Returns a query object of inspection(s) ordered by project_id"""
+
+        return cls.query.order_by(cls.project_id)
     
 class Bd_contact(db.Model):
     """Building department Contact"""

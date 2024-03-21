@@ -3,7 +3,12 @@ body {
     background-size: cover;
 }
 
-/* cards on index.html styling */
+ul.no_bullets {
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margins */
+  }
+
 .cards_div {
     margin-top: 5rem;
 }
@@ -25,5 +30,14 @@ body {
 
 .container {
     opacity: 0.9;
+}
+
+.client_top {
+    border: 1px solid red;
+    height: 25rem;
+}
+
+.client_bottom {
+    border: 1px solid red;
 }
 

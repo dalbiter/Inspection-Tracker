@@ -36,7 +36,7 @@ def show_yesterdays_schedule():
     """Shows yesterday schedule"""
 
     schedule_date = date.today() - timedelta(days=1)
-    inspections = Inspection.query.filter(Inspection.date==schedule_date).all()
+    inspections = Inspection.get_inspections().filter(Inspection.date==schedule_date).all()
     return render_template('schedule.html', schedule_date=schedule_date, inspections=inspections)
 
 @app.route('/todays_schedule')
@@ -44,7 +44,7 @@ def show_todays_schedule():
     """Shows today schedule"""
 
     schedule_date = date.today()
-    inspections = Inspection.query.filter(Inspection.date==schedule_date).all()
+    inspections = Inspection.get_inspections().filter(Inspection.date==schedule_date).all()
     return render_template('schedule.html', schedule_date=schedule_date, inspections=inspections)
 
 @app.route('/tomorrows_schedule')
@@ -52,7 +52,7 @@ def show_tomorrows_schedule():
     """Shows tomorrows schedule"""
 
     schedule_date = date.today() + timedelta(days=1)
-    inspections = Inspection.query.filter(Inspection.date==schedule_date).all()
+    inspections = Inspection.get_inspections().filter(Inspection.date==schedule_date).all()
     return render_template('schedule.html', schedule_date=schedule_date, inspections=inspections)
 
 # Views related to dashboard and reporting
@@ -97,4 +97,5 @@ def show_client_details(cid):
     """Show details on a specific client"""
 
     client = Client.query.get_or_404(cid)
-    return render_template('client_details.html', client=client)
+    client_projects = Project.query.filter_by(client_id=cid).all()
+    return render_template('client_details.html', client=client, client_projects=client_projects)
