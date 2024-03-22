@@ -5,6 +5,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, Building_dept, Client, Installation_team, Project, Inspection, Bd_contact, Inspection_sitter
 from sqlalchemy import text
 from datetime import datetime, date, timedelta
+from forms import AddInspectionForm
 
 app = Flask(__name__)
 app.app_context().push()
@@ -25,11 +26,36 @@ def show_home():
 
 #Views related to scheduling
 
-@app.route('/inspection_scheduling')
+@app.route('/inspections')
 def show_inspection_scheduling():
     """Show inspection scheduling options"""
 
-    return render_template('inspection_scheduling.html')
+    return render_template('inspections.html')
+
+@app.route('/inspections/add', methods=['GET', 'POST'])
+def handle_inspection_form():
+    """Handles form to add a new inspection instance"""
+
+    form = AddInspectionForm()
+    if form.validate_on_submit():
+        team_id = form.team_id.data
+        sitter_id = form.sitter_id.data
+        project_id = form.project_id.data
+        date = form.date.data
+        type = form.type.data
+        result = form.result.data
+        notes = form.notes.data
+        to_close = form.to_close.data
+        at_fault = form.at_fault.data
+
+        new_inspection = Inspection(team_id=team_id, sitter_id=sitter_id, project_id=project_id, date=date, type=type, result=result, notes=notes, to_close=to_close, at_fault=at_fault)
+        db.session.add(new_inspection)
+        db.session.commit()
+        
+        flash(f'Created new inspection for team: {team_id} on {date}')
+        return redirect('/inspections')
+    else:
+        return render_template('add_inspection.html', form=form)
 
 @app.route('/yesterdays_schedule')
 def show_yesterdays_schedule():

@@ -43,9 +43,16 @@
          
         </div>
       </nav>
+
       <div class="content">
         {% block content %}{% endblock %}
       </div>
-    <script src="/static/app.js"></script>
+      
+      <div class="container text-white bg-black" id="flashed_message">
+        {% for msg in get_flashed_messages() %}
+        <p>{{msg}}</p>
+        {% endfor %}
+      </div>
+    <script src="/static/app.js"></script>   
 </body>
 </html>
