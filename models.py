@@ -107,7 +107,7 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     client_id = db.Column(db.Integer, db.ForeignKey('clients.id'))   
     bd_id = db.Column(db.Integer, db.ForeignKey('building_depts.id'))
-    job_number = db.Column(db.Integer, nullable=False)
+    job_number = db.Column(db.Integer, unique=True, nullable=False)
     job_link = db.Column(db.String)
     description = db.Column(db.String(150), nullable=False)
     kws = db.Column(db.Float)
@@ -128,7 +128,7 @@ class Inspection(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     team_id = db.Column(db.Integer, db.ForeignKey('installation_teams.id'), nullable=False)
     sitter_id = db.Column(db.Integer, db.ForeignKey('inspection_sitters.id'))
-    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
+    project_job_number = db.Column(db.Integer, db.ForeignKey('projects.job_number'), nullable=False)
     date = db.Column(db.Date, nullable=False)
     type = db.Column(db.String(50), nullable=False)
     result = db.Column(db.String(25), nullable=False, default='pending')
@@ -161,9 +161,9 @@ class Inspection(db.Model):
     
     @classmethod
     def get_inspections(cls):
-        """Returns a query object of inspection(s) ordered by project_id"""
+        """Returns a query object of inspection(s) ordered by project_job_number"""
 
-        return cls.query.order_by(cls.project_id)
+        return cls.query.order_by(cls.project_job_number)
     
 class Bd_contact(db.Model):
     """Building department Contact"""
@@ -205,8 +205,13 @@ class Inspection_sitter(db.Model):
     phone = db.Column(db.String(20))
     email = db.Column(db.String(50))
 
+    inspections = db.relationship("Inspection", backref='sitter')
+
     def __repr__(self):
         """Representation of inspection sitter"""
 
         s = self
         return f"Inspection_sitter<inspection_sitter id={s.id}, first_name={s.first_name}, last_name={s.last_name}, phone={s.phone}, email={s.email}>"
+    
+    def get_full_name(self):
+        return f"""{self.last_name.capitalize()}, {self.first_name.capitalize()}""" 

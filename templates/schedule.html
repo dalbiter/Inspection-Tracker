@@ -13,9 +13,11 @@
             <thead>
                 <tr>
                     <th scope="col"><strong>Installation Team</strong></th>
+                    <th scope="col"><strong>Sitter</strong></th>
                     <th scope="col"><strong>Client Name</strong></th>
                     <th scope="col"><strong>Inspection Date</strong></th>
                     <th scope="col"><strong>Building Dept</strong></th>
+                    <th scope="col"><strong>State</strong></th>
                     <th scope="col"><strong>Type of Inspection</strong></th>
                     <th scope="col"><strong>To close?</strong></th>
                     <th scope="col"><strong>Result</strong></th>
@@ -26,10 +28,16 @@
             <tbody>
                 {% for inspection in inspections %}
                 <tr>
-                    <td>{{inspection.installation_team.team_name.title()}}</td>    
+                    <td>{{inspection.installation_team.team_name.title()}}</td>
+                    {% if inspection.sitter %}
+                        <td>{{inspection.sitter.get_full_name().title()}}</td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}      
                     <td><a href="/clients/{{inspection.project.client.id}}">{{inspection.project.client.get_full_name()}}</a></td>    
                     <td>{{inspection.date}}</td>    
                     <td><a href="/building_depts/{{inspection.project.building_dept.id}}">{{inspection.project.building_dept.name.title()}}</a></td>    
+                    <td>{{inspection.project.building_dept.state.upper()}}</td>    
                     <td>{{inspection.type.title()}}</td>    
                     <td>{{inspection.to_close}}</td>    
                     <td>{{inspection.result.title()}}</td>
