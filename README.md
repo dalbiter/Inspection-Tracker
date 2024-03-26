@@ -25,3 +25,7 @@ There are 7 primary tables representing building deparments, clients, installati
 
 #### Challenges
 Designing the database properly was key for this application is it relies heavily on data integrity and proper relationships that will be used for different reporting and analysis.
+
+Consider routes for projects should they be /project/.../.../... or should they be clients/client.id/projects/.../.../...?
+
+Why am I not showing prefilled job# on edit_inspection form?

@@ -21,6 +21,7 @@
                         <li><Strong>Notes: </Strong>{{client.notes}}</li>
                     </ul>
                 </p>
+                <a href="#" class="btn btn-primary">Edit</a>
             </div>
         </div>
       </div>
@@ -37,56 +38,10 @@
                         {% endfor %}
                     </ul>
                 </p>
+                <a href="/projects/add" class="btn btn-primary">Add new project</a>
             </div>
         </div>
       </div>
-    </div>
-    <div class="row justify-content-md-center mt-4 client_bottom">
-        <div class="col-md-auto">
-        </div>
-        <div class="col-10">
-            <div class="card client_card border shadow">
-                <div class="card-body">
-                    <h5 class="card-title text-center"><u>Inspections</u></h5>
-                    <p class="card-text">
-                        <div class="container text-center" id="schedule_div">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col"><strong>Installation Team</strong></th>
-                                        <th scope="col"><strong>Client Name</strong></th>
-                                        <th scope="col"><strong>Inspection Date</strong></th>
-                                        <th scope="col"><strong>Building Dept</strong></th>
-                                        <th scope="col"><strong>Type of Inspection</strong></th>
-                                        <th scope="col"><strong>To close?</strong></th>
-                                        <th scope="col"><strong>Result</strong></th>
-                                        <th scope="col"><strong>Notes</strong></th>
-                                        <th scope="col"><strong></strong></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for inspection in inspections %}
-                                    <tr>
-                                        <td>{{inspection.installation_team.team_name.title()}}</td>    
-                                        <td><a href="/clients/{{inspection.project.client.id}}">{{inspection.project.client.get_full_name()}}</a></td>    
-                                        <td>{{inspection.date}}</td>    
-                                        <td><a href="/building_depts/{{inspection.project.building_dept.id}}">{{inspection.project.building_dept.name.title()}}</a></td>    
-                                        <td>{{inspection.type.title()}}</td>    
-                                        <td>{{inspection.to_close}}</td>    
-                                        <td>{{inspection.result.title()}}</td>
-                                        <td>{{inspection.notes}}</td>
-                                        <td><a href="/update_db">Edit</a></td>     
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-auto">
-        </div>
     </div>
 </div>
 

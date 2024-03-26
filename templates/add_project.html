@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Edit {{bd.name}}
+
+    Add New Project
+    
 {% endblock %}
 
 {% block content %}
+
 <div class="container text-center" id="header">
-    <h1 class="text-white">Editing details for {{bd.name.title()}} (under construction)</h1>
+    <h1 class="text-white">Add a new project (under construction)</h1>
 </div>
 
 <div class="container">
@@ -26,9 +29,8 @@
                     {% endfor %}
                 </div>
                 {% endfor %}
-                <button class="btn btn-secondary">Update</button>
-                <a href="/building_depts/{{bd.id}}" class="btn btn-warning">Cancel</a>
-                <a href="#" class="btn btn-danger">Delete</a>
+                <button class="btn btn-info">Add Project</button>
+                <a href="/update_db" class="btn btn-warning">Cancel</a>
             </form>
         </div>
     </div>
