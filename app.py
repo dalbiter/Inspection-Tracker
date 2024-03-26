@@ -69,7 +69,7 @@ def handle_inspection_form():
     
 @app.route('/inspections/<int:insp_id>/edit', methods=['GET', 'POST'])
 def edit_inspection(insp_id):
-    """Show/ handle form to edit a specific inspection"""
+    """Show and handle form to edit an inspection"""
 
     inspection = Inspection.query.get_or_404(insp_id)
     teams = [(t.id, t.team_name.title()) for t in Installation_team.query.all()]
@@ -188,8 +188,8 @@ def show_bd_details(bdid):
     return render_template('bd_details.html', bd=bd)
 
 @app.route('/building_depts/<int:bdid>/edit', methods=['GET', 'POST'])
-def show_edit_bd_form(bdid):
-    """Show form to edit a specific building department"""
+def edit_bduilding_dept(bdid):
+    """Show and handle form to edit a building department"""
 
     bd = Building_dept.query.get_or_404(bdid)
     form = AddBuildingDepartment(obj=bd)
@@ -240,6 +240,23 @@ def handle_client_form():
     else:
         return render_template('add_client.html', form=form)
 
+@app.route('/clients/<int:cid>/edit', methods=['GET', 'POST'])
+def edit_client(cid):
+    """Show and handle form to edit a client"""
+
+    client = Client.query.get_or_404(cid)
+    form = AddClient(obj=client)
+
+    if form.validate_on_submit():
+        client.first_name = form.first_name.data
+        client.last_name = form.last_name.data
+        client.notes = form.notes.data
+
+        db.session.commit()
+        return redirect(f'/clients/{client.id}')
+    else:
+        return render_template('edit_client.html', form=form, client=client) 
+
 @app.route('/projects/add', methods=['GET', 'POST'])
 def handle_project_form():
     """Show and handle add project form for a specific client"""
@@ -256,16 +273,52 @@ def handle_project_form():
         job_link = form.job_link.data
         description = form.description.data
         kws = form.kws.data
+        notes = form.notes.data
 
         new_project = Project(client_id=client_id, 
                                 bd_id=bd_id, 
                                 job_number=job_number, 
                                 job_link=job_link, 
                                 description=description,
-                                kws = kws)
+                                kws=kws,
+                                notes=notes)
         db.session.add(new_project)
         db.session.commit()
 
         return redirect(f'/clients/{client_id}')
     else:
         return render_template('add_project.html', form=form)
+
+@app.route('/projects/<int:pid>')
+def show_project_details(pid):
+    """Show project details"""
+
+    project = Project.query.get_or_404(pid)
+
+    return render_template('project_details.html', project=project)
+    
+@app.route('/projects/<int:pid>/edit', methods=['GET', 'POST'])
+def edit_project(pid):
+    """Show and handle edit project form"""
+
+    project = Project.query.get_or_404(pid)
+    clients = [(c.id, c.get_full_name().title()) for c in Client.query.all()]
+    building_depts = [(bd.id, bd.name.title()) for bd in Building_dept.query.all()]
+    form = AddProject(obj=project)
+    form.client_id.choices = clients
+    form.bd_id.choices = building_depts
+
+    if form.validate_on_submit():
+        project.client_id = form.client_id.data
+        project.bd_id = form.bd_id.data
+        project.job_number = form.job_number.data
+        project.job_link = form.job_link.data
+        project.description = form.description.data
+        project.kws = form.kws.data
+        project.notes = form.notes.data 
+
+        db.session.commit()
+        
+        return redirect(f'/projects/{pid}')
+    else:
+        return render_template('edit_project.html', form=form, project=project)

@@ -21,7 +21,7 @@
                         <li><Strong>Notes: </Strong>{{client.notes}}</li>
                     </ul>
                 </p>
-                <a href="#" class="btn btn-primary">Edit</a>
+                <a href="/clients/{{client.id}}/edit" class="btn btn-primary">Edit</a>
             </div>
         </div>
       </div>
@@ -34,7 +34,7 @@
                 <p class="card-text">
                     <ul class="no_bullets">
                         {% for project in client_projects %}
-                        <li><a href="{{project.job_link}}" target="_blank">{{project.description}}</a></li>
+                        <li><a href="/projects/{{project.id}}">{{project.description}}</a></li>
                         {% endfor %}
                     </ul>
                 </p>

@@ -31,7 +31,12 @@ class AddClient(FlaskForm):
 
     first_name = StringField("Client First Name")
     last_name = StringField("Client Last Name")
-    notes = StringField("Client Notes")
+    notes = TextAreaField("Client Notes")
+
+# Installation Team Forms
+    
+class AddInstallationTeam(FlaskForm):
+    """Form for adding/editing details for an installation team"""
 
 # Project Forms
 
@@ -43,7 +48,8 @@ class AddProject(FlaskForm):
     job_number = IntegerField("Enter the Job Nimbus job number") 
     job_link = StringField("Link to project in Job Nimbus")
     description = StringField("Description of the project")
-    kws = FloatField("How many kWs is the project?")
+    kws = FloatField("How many kWs is the project?", validators=[Optional()])
+    notes = TextAreaField("Project notes")
 
 # Inspection forms
 

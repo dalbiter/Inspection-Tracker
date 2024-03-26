@@ -111,6 +111,7 @@ class Project(db.Model):
     job_link = db.Column(db.String)
     description = db.Column(db.String(150), nullable=False)
     kws = db.Column(db.Float)
+    notes = db.Column(db.Text)
 
     inspections = db.relationship("Inspection", backref='project')
 
