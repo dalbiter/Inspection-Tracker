@@ -1,5 +1,3 @@
-# Inspection Tracker
-
 ## Purpose and intent
 The idea behind this application was to develope a better way to track inspections, manage the information gathered from projects, inspections, building departments, and clients, and use that information to identify patterns and areas of improvement. Closing out projects in a timely manner is key to mainting cash flow and understanding the key reasons inspections are failed can help educate future projects and inspections thus increasing the closing percentage on the first attempt.
 
@@ -28,4 +26,4 @@ Designing the database properly was key for this application is it relies heavil
 
 Consider routes for projects should they be /project/.../.../... or should they be clients/client.id/projects/.../.../...?
 
-Why am I not showing prefilled job# on edit_inspection form?
+How to add 'None' choice for dynamic selector (getting not valid integer error) i.e. adding a new inspection with no sitter.

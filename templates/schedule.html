@@ -38,8 +38,12 @@
                     <td>{{inspection.date}}</td>    
                     <td><a href="/building_depts/{{inspection.project.building_dept.id}}">{{inspection.project.building_dept.name.title()}}</a></td>    
                     <td>{{inspection.project.building_dept.state.upper()}}</td>    
-                    <td><b>{{inspection.type.title()}}</b></td>    
-                    <td>{{inspection.to_close}}</td>    
+                    <td><b>{{inspection.type.title()}}</b></td>
+                    {% if inspection.to_close %}    
+                        <td class="text-success">{{inspection.to_close}}</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}    
                     <td>{{inspection.result.title()}}</td>
                     <td>{{inspection.notes}}</td>
                     <td><a href="/inspections/{{inspection.id}}/edit">Edit</a></td>     

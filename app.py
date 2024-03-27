@@ -5,7 +5,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, Building_dept, Client, Installation_team, Project, Inspection, Bd_contact, Inspection_sitter
 from sqlalchemy import text
 from datetime import datetime, date, timedelta
-from forms import AddInspectionForm, AddBuildingDepartment, AddClient, AddProject
+from forms import AddBuildingDepartment, AddClient, AddInstallationTeam, AddProject, AddInspectionForm
 
 app = Flask(__name__)
 app.app_context().push()
@@ -38,12 +38,15 @@ def handle_inspection_form():
 
     form = AddInspectionForm()
     teams = [(t.id, t.team_name.title()) for t in Installation_team.query.all()]
+    sitters = [(s.id, s.get_full_name().title()) for s in Inspection_sitter.query.all()]
+    sitters.insert(0, (False, 'None'))
     form.team_id.choices = teams
+    form.sitter_id.choices = sitters
 
     if form.validate_on_submit():
         team_id = form.team_id.data
         sitter_id = form.sitter_id.data
-        job_number = form.job_number.data
+        project_job_number = form.project_job_number.data
         date = form.date.data
         type = form.type.data
         result = form.result.data
@@ -54,7 +57,7 @@ def handle_inspection_form():
         team = Installation_team.query.get_or_404(team_id)
         new_inspection = Inspection(team_id=team_id, 
                                     sitter_id=sitter_id, 
-                                    project_job_number=job_number, 
+                                    project_job_number=project_job_number, 
                                     date=date, type=type, 
                                     result=result, notes=notes, 
                                     to_close=to_close, 
@@ -79,7 +82,7 @@ def edit_inspection(insp_id):
     if form.validate_on_submit():
         inspection.team_id = form.team_id.data
         inspection.sitter_id = form.sitter_id.data
-        inspection.project_job_number = form.job_number.data
+        inspection.project_job_number = form.project_job_number.data
         inspection.date = form.date.data
         inspection.type = form.type.data
         inspection.result = form.result.data
@@ -255,7 +258,52 @@ def edit_client(cid):
         db.session.commit()
         return redirect(f'/clients/{client.id}')
     else:
-        return render_template('edit_client.html', form=form, client=client) 
+        return render_template('edit_client.html', form=form, client=client)
+
+@app.route('/installation_teams')
+def show_install_teams():
+    """Show list of all installation teams"""
+
+    teams = db.session.execute(db.select(Installation_team).order_by(Installation_team.team_name)).scalars()
+    return render_template('install_teams.html', teams=teams) 
+
+@app.route('/installation_teams/<int:tid>')
+def show_install_team(tid):
+    """Show details on installation team"""
+
+    team = Installation_team.query.get_or_404(tid)
+
+    return render_template('install_team_details.html', team=team)
+
+@app.route('/installation_teams/add', methods=['GET', 'POST'])
+def handle_install_team_form():
+
+    form = AddInstallationTeam()
+
+    if form.validate_on_submit():
+        team_name = form.team_name.data
+
+        new_team = Installation_team(team_name=team_name)
+        db.session.add(new_team)
+        db.session.commit()
+        return redirect(f'/installation_teams/{new_team.id}')
+    else:
+        return render_template('add_install_team.html', form=form)
+
+@app.route('/installation_teams/<int:tid>/edit', methods=['GET', 'POST'])
+def edit_install_team(tid):
+    """Show and handle edit install team form"""
+
+    team = Installation_team.query.get_or_404(tid)
+    form = AddInstallationTeam(obj=team)
+
+    if form.validate_on_submit():
+        team.team_name = form.team_name.data
+
+        db.session.commit()
+        return redirect(f'/installation_teams/{team.id}')
+    else:
+        return render_template('edit_install_team.html', form=form, team=team)
 
 @app.route('/projects/add', methods=['GET', 'POST'])
 def handle_project_form():
@@ -266,6 +314,7 @@ def handle_project_form():
     clients = [(c.id, c.get_full_name().title()) for c in Client.query.all()]
     form.bd_id.choices = building_depts
     form.client_id.choices = clients
+
     if form.validate_on_submit():
         client_id = form.client_id.data
         bd_id = form.bd_id.data

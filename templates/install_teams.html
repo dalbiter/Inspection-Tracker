@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+    Installation Teams 
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center mt-4" id="header">
+    <h1 class="text-white">Select an Installation team below to view details</h1>
+</div>
+
+<div class="container bg-white mt-3" id="bd_container">
+    <div class="row">
+        <div class="col">
+            <ul>
+                {% for team in teams %}
+                <li><a href="/installation_teams/{{team.id}}">{{team.team_name.title()}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container text-center mt-3">
+    <a href="/installation_teams/add" class="btn btn-primary">Add Another Installation Team</a>
+</div>
+{% endblock %} 

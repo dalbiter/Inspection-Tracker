@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Team Details {% endblock %}
+
+{% block content %}
+
+<div class="container text-center mt-4" id="header">
+    <h1 class="text-white">Viewing details for {{team.team_name.title()}}</h1>
+</div>
+
+<div class="container bg-white mt-3">
+
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Team Name: </strong>{{team.team_name.title()}}</li>
+    </ul>
+    
+    <form>
+        <div class="pb-2">
+            <button class="btn btn-secondary" formaction="/installation_teams">Back to teams</button>
+            <button class="btn btn-info" formaction="/installation_teams/{{team.id}}/edit">Edit</button>
+        </div>
+    </form>
+    
+</div>
+
+{% endblock %}

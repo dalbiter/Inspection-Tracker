@@ -38,6 +38,8 @@ class AddClient(FlaskForm):
 class AddInstallationTeam(FlaskForm):
     """Form for adding/editing details for an installation team"""
 
+    team_name = StringField("Installation Team Name")
+
 # Project Forms
 
 class AddProject(FlaskForm):
@@ -57,8 +59,8 @@ class AddInspectionForm(FlaskForm):
     """Form for adding/editing and inspection"""
 
     team_id = SelectField("Installation Team")
-    sitter_id = IntegerField("Inspection Sitter ID", validators=[Optional()])
-    job_number = IntegerField("Job Number from Job Nimbus")
+    sitter_id = SelectField("Inspection Sitter ID", validators=[Optional()])
+    project_job_number = IntegerField("Job Number from Job Nimbus")
     date = DateField("Inspection Date")
     type = SelectField("Type of Inspection",
                        choices=[('battery', 'Battery'),
