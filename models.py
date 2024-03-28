@@ -7,6 +7,7 @@
 
 from sqlalchemy.dialects.postgresql import UUID
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime, date
 import uuid
 
 db = SQLAlchemy()
@@ -144,7 +145,7 @@ class Inspection(db.Model):
         return f"""Inspection<inspection id={i.id}, 
                                          team_id={i.team_id}, 
                                          sitter_id={i.sitter_id},
-                                         project_id={i.project_id},
+                                         project_id={i.project_job_number},
                                          date={i.date},
                                          type={i.type},
                                          result={i.result},
@@ -165,6 +166,18 @@ class Inspection(db.Model):
         """Returns a query object of inspection(s) ordered by project_job_number"""
 
         return cls.query.order_by(cls.project_job_number)
+    
+    @classmethod
+    def get_inspections_by_date(cls, to_date=None, from_date=None):
+        """Takes dates as a string and returns a query object of inspection(s) for a specific date or date range"""
+        
+        if(to_date and from_date):
+            to_date_obj = date.fromisoformat(to_date)
+            from_date_obj = date.fromisoformat(from_date)
+            return cls.query.filter(cls.date >= to_date_obj, cls.date <= from_date_obj).order_by(cls.date)
+        elif(to_date):
+            to_date_obj = date.fromisoformat(to_date)
+            return cls.query.filter(cls.date == to_date_obj)
     
 class Bd_contact(db.Model):
     """Building department Contact"""
