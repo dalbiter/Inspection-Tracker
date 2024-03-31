@@ -105,3 +105,15 @@ class AddInspectionForm(FlaskForm):
     notes = TextAreaField("Inspection Notes")
     to_close = BooleanField("Will this inspection close the project?")
     at_fault = BooleanField("Is the team at fault for failing?")
+
+class AddBdContact(FlaskForm):
+    """Form for adding a building department contact"""
+
+    bd_id = SelectField("Select a building department")
+    first_name = StringField("First name")
+    last_name = StringField("Last name")
+    title = StringField("Dept title (i.e. electrical inspector)")
+    cell_phone = StringField("Cell phone")
+    office_phone = StringField("Office phone")
+    email = StringField("Email")
+    notes = TextAreaField("Contact notes/details")

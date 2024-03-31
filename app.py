@@ -5,7 +5,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, Building_dept, Client, Installation_team, Project, Inspection, Bd_contact, Inspection_sitter
 from sqlalchemy import text
 from datetime import datetime, date, timedelta
-from forms import AddBuildingDepartment, AddClient, AddInstallationTeam, AddProject, AddInspectionForm
+from forms import AddBuildingDepartment, AddClient, AddInstallationTeam, AddProject, AddInspectionForm, AddBdContact
 
 app = Flask(__name__)
 app.app_context().push()
@@ -371,3 +371,71 @@ def edit_project(pid):
         return redirect(f'/projects/{pid}')
     else:
         return render_template('edit_project.html', form=form, project=project)
+    
+@app.route('/building_depts/<int:bdid>/contacts')
+def show_bd_contacts(bdid):
+    """Show building department contacts for a specific building department"""
+
+    return render_template('bd_contacts.html')
+
+@app.route('/bd_contacts/<int:cid>')
+def show_bd_contact_details(cid):
+
+    contact = Bd_contact.query.get_or_404(cid)
+    return render_template('bd_contact_details.html', contact=contact)
+
+@app.route('/bd_contacts/add', methods=['GET', 'POST'])
+def handle_add_bd_contact():
+    """Show and handle add building department contact form"""
+
+    building_depts = [(bd.id, bd.name.title()) for bd in Building_dept.query.all()]
+    form = AddBdContact()
+    form.bd_id.choices = building_depts
+
+    if form.validate_on_submit():
+        bd_id = form.bd_id.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        title = form.title.data
+        cell_phone = form.cell_phone.data
+        office_phone = form.office_phone.data
+        email = form.email.data
+        notes = form.notes.data
+
+        new_contact = Bd_contact(bd_id=bd_id,
+                                first_name=first_name,
+                                last_name=last_name,
+                                title=title,
+                                cell_phone=cell_phone,
+                                office_phone=office_phone,
+                                email=email,
+                                notes=notes)
+        db.session.add(new_contact)
+        db.session.commit()
+        return redirect(f'/bd_contacts/{new_contact.id}')
+    else:
+        return render_template('add_bd_contact.html', form=form)
+    
+@app.route('/bd_contacts/<int:cid>/edit', methods=['GET', 'POST'])
+def edit_bd_contact(cid):
+    """Show and handle edit building dept contact form"""
+
+    contact = Bd_contact.query.get_or_404(cid)
+    building_depts = [(bd.id, bd.name.title()) for bd in Building_dept.query.all()]
+    form = AddBdContact(obj=contact)
+    form.bd_id.choices = building_depts
+
+    if form.validate_on_submit():
+        contact.bd_id = form.bd_id.data
+        contact.first_name = form.first_name.data
+        contact.last_name = form.last_name.data
+        contact.title = form.title.data
+        contact.cell_phone = form.cell_phone.data
+        contact.office_phone = form.office_phone.data
+        contact.email = form.email.data
+        contact.notes = form.notes.data 
+
+        db.session.commit()
+        return redirect(f'/bd_contacts/{cid}')
+    else:
+        return render_template('edit_bd_contact.html', form=form, contact=contact) 
