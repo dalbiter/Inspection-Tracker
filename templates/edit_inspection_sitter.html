@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Edit {{sitter.first_name.title()}}
+{% endblock %}
+
+{% block content %}
+<div class="container text-center" id="header">
+    <h1 class="text-white">Editing details for {{sitter.get_full_name().title()}} (under construction)</h1>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center border rounded shadow bg-white">
+        <div class="col-lg-8 p-3">
+            <form action="" method="POST">
+                {{ form.hidden_tag() }}
+                {% for field in form if field.widget.input_type != 'hidden' %}
+                <div class="fomr-group mb-3">
+                    {{field.label}}
+                    {{field}}
+
+                    {% for error in field.errors %}
+                        <small class="form-text text-danger">
+                            {{error}}
+                        </small>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+                <button class="btn btn-secondary">Update</button>
+                <a href="/inspection_sitters/{{sitter.id}}" class="btn btn-warning">Cancel</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

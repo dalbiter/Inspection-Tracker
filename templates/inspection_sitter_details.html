@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} {{sitter.first_name.title()}} {% endblock %}
+
+{% block content %}
+
+<div class="container text-center mt-4" id="header">
+    <h1 class="text-white">{{sitter.first_name.title()}} Details</h1>
+</div>
+
+<div class="container bg-white mt-3">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Name: </strong>{{sitter.get_full_name().title()}}</strong></li>
+        <li class="list-group-item"><strong>Phone: </strong>{{sitter.phone}}</li>
+        <li class="list-group-item"><strong>Email: </strong>{{sitter.email}}</li>
+    </ul>
+    <form>
+        <div class="pb-2">
+            <button class="btn btn-secondary" formaction="/inspection_sitters">Back to list</button>
+            <button class="btn btn-info" formaction="/inspection_sitters/{{sitter.id}}/edit">Edit</button>
+        </div>
+    </form>
+    
+</div>
+
+{% endblock %}

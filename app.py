@@ -5,7 +5,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, Building_dept, Client, Installation_team, Project, Inspection, Bd_contact, Inspection_sitter
 from sqlalchemy import text
 from datetime import datetime, date, timedelta
-from forms import AddBuildingDepartment, AddClient, AddInstallationTeam, AddProject, AddInspectionForm, AddBdContact
+from forms import AddBuildingDepartment, AddClient, AddInstallationTeam, AddProject, AddInspectionForm, AddBdContact, AddInspectionSitter
 
 app = Flask(__name__)
 app.app_context().push()
@@ -439,3 +439,54 @@ def edit_bd_contact(cid):
         return redirect(f'/bd_contacts/{cid}')
     else:
         return render_template('edit_bd_contact.html', form=form, contact=contact) 
+
+@app.route('/inspection_sitters')
+def show_inspection_sitters():
+    """Show list of all inspection sitters"""
+
+    sitters = Inspection_sitter.query.all()
+    return render_template('inspection_sitters.html', sitters=sitters)
+
+@app.route('/inspection_sitters/<int:sid>')
+def show_inspection_sitter_details(sid):
+    """Show details for specific inspection sitter instance"""
+    
+    sitter = Inspection_sitter.query.get_or_404(sid)
+    return render_template('inspection_sitter_details.html', sitter=sitter)
+
+@app.route('/inspection_sitters/add', methods=['GET', 'POST'])
+def handle_add_inspection_sitter():
+    """Show and handle add inspection sitter form"""
+
+    form = AddInspectionSitter()
+        
+    if form.validate_on_submit():
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        phone = form.phone.data
+        email = form.email.data
+
+        new_sitter = Inspection_sitter(first_name=first_name, last_name=last_name, phone=phone, email=email)
+        db.session.add(new_sitter)
+        db.session.commit()
+        return redirect(f'/inspection_sitter/{new_sitter.id}')
+    else:
+        return render_template('/add_inspection_sitter.html', form=form)
+    
+@app.route('/inspection_sitters/<int:sid>/edit', methods=['GET', 'POST'])
+def edit_inspection_sitter(sid):
+    """Show and handle edit inspection sitter form"""
+
+    sitter = Inspection_sitter.query.get_or_404(sid)
+    form = AddInspectionSitter(obj=sitter)
+
+    if form.validate_on_submit():
+        sitter.first_name = form.first_name.data
+        sitter.last_name = form.last_name.data
+        sitter.phone = form.phone.data
+        sitter.email = form.email.data
+
+        db.session.commit()
+        return redirect(f'/inspection_sitters/{sitter.id}')
+    else:
+        return render_template('edit_inspection_sitter.html', form=form, sitter=sitter) 

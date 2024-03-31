@@ -10,8 +10,8 @@
 
 <div class="container bg-white mt-3">
     <ul class="list-group list-group-flush">
-        <li class="list-group-item"><strong>Name: </strong>{{contact.first_name.title()}}</strong></li>
-        <li class="list-group-item"><strong>Title: </strong>{{contact.title.upper()}}</li>
+        <li class="list-group-item"><strong>Name: </strong>{{contact.get_full_name().title()}}</strong></li>
+        <li class="list-group-item"><strong>Title: </strong>{{contact.title.title()}}</li>
         <li class="list-group-item"><strong>Cell Phone: </strong>{{contact.cell_phone}}</li>
         <li class="list-group-item"><strong>Office Phone: </strong>{{contact.office_phone}}</li>
         <li class="list-group-item"><strong>Email: </strong>{{contact.email}}</li>

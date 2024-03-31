@@ -207,6 +207,9 @@ class Bd_contact(db.Model):
                                          office_phone={bdc.office_phone},
                                          email={bdc.email},
                                          notes={bdc.notes}>"""
+    
+    def get_full_name(self):
+        return f"""{self.last_name.capitalize()}, {self.first_name.capitalize()}"""
    
 class Inspection_sitter(db.Model):
     """Inspection sitter"""

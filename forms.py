@@ -2,7 +2,7 @@
     consider all validations and error handling"""
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, FloatField, IntegerField, DateField, TextAreaField, BooleanField, SelectField
+from wtforms import StringField, FloatField, IntegerField, DateField, TextAreaField, BooleanField, SelectField, EmailField
 from wtforms.validators import InputRequired, Optional
 
 # Building department forms
@@ -115,5 +115,13 @@ class AddBdContact(FlaskForm):
     title = StringField("Dept title (i.e. electrical inspector)")
     cell_phone = StringField("Cell phone")
     office_phone = StringField("Office phone")
-    email = StringField("Email")
+    email = EmailField("Email Address")
     notes = TextAreaField("Contact notes/details")
+
+class AddInspectionSitter(FlaskForm):
+    """Form for adding an inspection sitter"""
+
+    first_name = StringField("First Name")
+    last_name = StringField("Last Name")
+    phone = StringField("Phone Number")
+    email = EmailField("Email Address")
