@@ -6,6 +6,7 @@ from models import db, connect_db, Building_dept, Client, Installation_team, Pro
 from sqlalchemy import text
 from datetime import datetime, date, timedelta
 from forms import AddBuildingDepartment, AddClient, AddInstallationTeam, AddProject, AddInspectionForm, AddBdContact, AddInspectionSitter
+from charts import get_chart
 
 app = Flask(__name__)
 app.app_context().push()
@@ -495,9 +496,9 @@ def edit_inspection_sitter(sid):
 def show_dashboard():
     """Show inspections dashboard"""
 
-    return render_template('dashboard.html')
+    chart = get_chart()
 
-# Views related to updating db information i.e. adding/editing clients, building departments, contacts etc
+    return render_template('dashboard.html', chart=chart)
 
 @app.route('/update_db')
 def show_update_db_menu():

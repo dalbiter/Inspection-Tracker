@@ -90,7 +90,7 @@ p_westerberg = Project(client_id=5, bd_id=5, job_number=23107198, job_link='http
 
 i_papa = Inspection(team_id=1, 
                     project_job_number=23117251,
-                    date='2024-04-04',
+                    date='2024-04-05',
                     type='service change')
 
 i_purcell = Inspection(team_id=1, 
@@ -103,7 +103,7 @@ i_purcell = Inspection(team_id=1,
 
 i_mcgee = Inspection(team_id=1, 
                     project_job_number=23117279,
-                    date='2024-04-05',
+                    date='2024-04-06',
                     type='rough electrical')
 
 i_king = Inspection(team_id=2, 
@@ -114,13 +114,13 @@ i_king = Inspection(team_id=2,
 
 i_king2 = Inspection(team_id=2, 
                     project_job_number=22054674,
-                    date='2024-04-05',
+                    date='2024-04-06',
                     type='rough electrical',
                     notes='final building after, but there may also be a final fire inspection')
 
 i_westerberg = Inspection(team_id=1, 
                     project_job_number=23107198,
-                    date='2024-04-06',
+                    date='2024-04-07',
                     type='final electrical',
                     result='fail',
                     notes='need tech on site',
