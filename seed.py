@@ -90,37 +90,40 @@ p_westerberg = Project(client_id=5, bd_id=5, job_number=23107198, job_link='http
 
 i_papa = Inspection(team_id=1, 
                     project_job_number=23117251,
-                    date='2024-04-05',
-                    type='service change')
+                    date='2024-04-15',
+                    type='service change',
+                    result='cancel')
 
 i_purcell = Inspection(team_id=1, 
                     sitter_id=1,
                     project_job_number=23107156,
-                    date='2024-04-05',
+                    date='2024-04-15',
                     type='final electrical',
                     result='pass',
                     to_close=True)
 
 i_mcgee = Inspection(team_id=1, 
                     project_job_number=23117279,
-                    date='2024-04-06',
+                    date='2024-04-16',
                     type='rough electrical')
 
 i_king = Inspection(team_id=2, 
                     project_job_number=22054674,
-                    date='2024-04-06',
+                    date='2024-04-16',
                     type='final electrical',
+                    result='rescheduled',
                     notes='final building after, but there may also be a final fire inspection')
 
 i_king2 = Inspection(team_id=2, 
                     project_job_number=22054674,
-                    date='2024-04-06',
+                    date='2024-04-17',
                     type='rough electrical',
+                    result='partial',
                     notes='final building after, but there may also be a final fire inspection')
 
 i_westerberg = Inspection(team_id=1, 
                     project_job_number=23107198,
-                    date='2024-04-07',
+                    date='2024-04-17',
                     type='final electrical',
                     result='fail',
                     notes='need tech on site',
@@ -145,6 +148,9 @@ sal = Bd_contact(bd_id=2,
 
 # add inspection sitters
 
+none = Inspection_sitter(first_name='none',
+                          last_name='none')
+
 jairo = Inspection_sitter(first_name='jairo',
                           last_name='cure',
                           phone='786-800-6814',
@@ -167,7 +173,7 @@ db.session.add_all([p_papa, p_papa2, p_purcell, p_mcgee, p_mcgee2, p_king, p_wes
 db.session.commit()
 
 #add and commit all inspection sitters
-db.session.add(jairo)
+db.session.add_all([jairo, none])
 db.session.commit()
 
 #add and commit all inspections

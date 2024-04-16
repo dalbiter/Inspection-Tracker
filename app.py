@@ -108,6 +108,13 @@ def edit_bduilding_dept(bdid):
         return render_template('edit_bd.html', form=form, bd=bd)
 
 # clients routes
+@app.route('/clients')
+def show_clients():
+    """Show list of clients"""
+
+    clients = db.session.execute(db.select(Client).order_by(Client.last_name)).scalars()
+    return render_template('clients.html', clients=clients)
+
 @app.route('/clients/<int:cid>')
 def show_client_details(cid):
     """Show details on a specific client"""
@@ -280,7 +287,6 @@ def handle_inspection_form():
     form = AddInspectionForm()
     teams = [(t.id, t.team_name.title()) for t in Installation_team.query.all()]
     sitters = [(s.id, s.get_full_name().title()) for s in Inspection_sitter.query.all()]
-    sitters.insert(0, (False, 'None'))
     form.team_id.choices = teams
     form.sitter_id.choices = sitters
 
@@ -317,8 +323,10 @@ def edit_inspection(insp_id):
 
     inspection = Inspection.query.get_or_404(insp_id)
     teams = [(t.id, t.team_name.title()) for t in Installation_team.query.all()]
+    sitters = [(s.id, s.get_full_name().title()) for s in Inspection_sitter.query.all()]
     form = AddInspectionForm(obj=inspection)
     form.team_id.choices = teams
+    form.sitter_id.choices = sitters
 
     if form.validate_on_submit():
         inspection.team_id = form.team_id.data
