@@ -31,7 +31,7 @@ def show_building_depts():
     """Show building depts landing page"""
 
     building_depts = db.session.execute(db.select(Building_dept).order_by(Building_dept.name)).scalars()
-    return render_template('building_depts.html', building_depts=building_depts)
+    return render_template('building_depts/building_depts.html', building_depts=building_depts)
 
 @app.route("/building_depts/add", methods=['GET', 'POST'])
 def handle_building_dept_form():
@@ -72,14 +72,14 @@ def handle_building_dept_form():
         db.session.commit()
         return redirect("/building_depts")
     else:
-        return render_template("add_building_dept.html", form=form)
+        return render_template("building_depts/add_building_dept.html", form=form)
 
 @app.route('/building_depts/<int:bdid>')
 def show_bd_details(bdid):
     """Show details on a specific building dept"""
 
     bd = Building_dept.query.get_or_404(bdid)
-    return render_template('bd_details.html', bd=bd)
+    return render_template('building_depts/bd_details.html', bd=bd)
 
 @app.route('/building_depts/<int:bdid>/edit', methods=['GET', 'POST'])
 def edit_bduilding_dept(bdid):
@@ -105,7 +105,7 @@ def edit_bduilding_dept(bdid):
         db.session.commit()
         return redirect(f'/building_depts/{bdid}')
     else:
-        return render_template('edit_bd.html', form=form, bd=bd)
+        return render_template('building_depts/edit_bd.html', form=form, bd=bd)
 
 # clients routes
 @app.route('/clients')
@@ -113,7 +113,7 @@ def show_clients():
     """Show list of clients"""
 
     clients = db.session.execute(db.select(Client).order_by(Client.last_name)).scalars()
-    return render_template('clients.html', clients=clients)
+    return render_template('clients/clients.html', clients=clients)
 
 @app.route('/clients/<int:cid>')
 def show_client_details(cid):
@@ -121,7 +121,7 @@ def show_client_details(cid):
 
     client = Client.query.get_or_404(cid)
     client_projects = Project.query.filter_by(client_id=cid).all()
-    return render_template('client_details.html', client=client, client_projects=client_projects)
+    return render_template('clients/client_details.html', client=client, client_projects=client_projects)
 
 @app.route('/clients/add', methods=['GET', 'POST'])
 def handle_client_form():
@@ -140,7 +140,7 @@ def handle_client_form():
 
         return redirect(f'/clients/{new_client.id}')
     else:
-        return render_template('add_client.html', form=form)
+        return render_template('clients/add_client.html', form=form)
 
 @app.route('/clients/<int:cid>/edit', methods=['GET', 'POST'])
 def edit_client(cid):
@@ -157,7 +157,7 @@ def edit_client(cid):
         db.session.commit()
         return redirect(f'/clients/{client.id}')
     else:
-        return render_template('edit_client.html', form=form, client=client)
+        return render_template('clients/edit_client.html', form=form, client=client)
 
 # installation teams routes
 @app.route('/installation_teams')
@@ -165,15 +165,16 @@ def show_install_teams():
     """Show list of all installation teams"""
 
     teams = db.session.execute(db.select(Installation_team).order_by(Installation_team.team_name)).scalars()
-    return render_template('install_teams.html', teams=teams) 
+    return render_template('installation_teams/install_teams.html', teams=teams) 
 
 @app.route('/installation_teams/<int:tid>')
 def show_install_team(tid):
     """Show details on installation team"""
 
     team = Installation_team.query.get_or_404(tid)
+    thirty_day_chart = get_thirty_day_chart()
 
-    return render_template('install_team_details.html', team=team)
+    return render_template('installation_teams/install_team_details.html', team=team, thirty_day_chart=thirty_day_chart)
 
 @app.route('/installation_teams/add', methods=['GET', 'POST'])
 def handle_install_team_form():
@@ -188,7 +189,7 @@ def handle_install_team_form():
         db.session.commit()
         return redirect(f'/installation_teams/{new_team.id}')
     else:
-        return render_template('add_install_team.html', form=form)
+        return render_template('installation_teams/add_install_team.html', form=form)
 
 @app.route('/installation_teams/<int:tid>/edit', methods=['GET', 'POST'])
 def edit_install_team(tid):
@@ -203,7 +204,7 @@ def edit_install_team(tid):
         db.session.commit()
         return redirect(f'/installation_teams/{team.id}')
     else:
-        return render_template('edit_install_team.html', form=form, team=team)
+        return render_template('installation_teams/edit_install_team.html', form=form, team=team)
 
 # projects routes
 @app.route('/projects/add', methods=['GET', 'POST'])
@@ -237,7 +238,7 @@ def handle_project_form():
 
         return redirect(f'/clients/{client_id}')
     else:
-        return render_template('add_project.html', form=form)
+        return render_template('projects/add_project.html', form=form)
 
 @app.route('/projects/<int:pid>')
 def show_project_details(pid):
@@ -245,7 +246,7 @@ def show_project_details(pid):
 
     project = Project.query.get_or_404(pid)
 
-    return render_template('project_details.html', project=project)
+    return render_template('projects/project_details.html', project=project)
     
 @app.route('/projects/<int:pid>/edit', methods=['GET', 'POST'])
 def edit_project(pid):
@@ -271,14 +272,14 @@ def edit_project(pid):
         
         return redirect(f'/projects/{pid}')
     else:
-        return render_template('edit_project.html', form=form, project=project)
+        return render_template('projects/edit_project.html', form=form, project=project)
 
 # inspections routes
 @app.route('/inspections')
 def show_inspection_scheduling():
     """Show inspection scheduling options"""
 
-    return render_template('inspections.html')
+    return render_template('inspections/inspections.html')
 
 @app.route('/inspections/add', methods=['GET', 'POST'])
 def handle_inspection_form():
@@ -315,7 +316,7 @@ def handle_inspection_form():
         flash(f'Created new inspection for team: {team.team_name.title()} on {date}')
         return redirect('/inspections')
     else:
-        return render_template('add_inspection.html', form=form)
+        return render_template('inspections/add_inspection.html', form=form)
     
 @app.route('/inspections/<int:insp_id>/edit', methods=['GET', 'POST'])
 def edit_inspection(insp_id):
@@ -343,7 +344,7 @@ def edit_inspection(insp_id):
 
         return redirect('/inspections')
     else:
-        return render_template('/edit_inspection.html', form=form, inspection=inspection)
+        return render_template('inspections/edit_inspection.html', form=form, inspection=inspection)
     
 @app.route('/inspections/<int:insp_id>/delete', methods=['POST'])
 def delete_inspection(insp_id):
@@ -359,7 +360,7 @@ def show_yesterdays_schedule():
 
     schedule_date = date.today() - timedelta(days=1)
     inspections = Inspection.get_inspections().filter(Inspection.date==schedule_date).all()
-    return render_template('schedule.html', schedule_date=schedule_date, inspections=inspections)
+    return render_template('inspections/schedule.html', schedule_date=schedule_date, inspections=inspections)
 
 @app.route('/todays_schedule')
 def show_todays_schedule():
@@ -367,7 +368,7 @@ def show_todays_schedule():
 
     schedule_date = date.today()
     inspections = Inspection.get_inspections().filter(Inspection.date==schedule_date).all()
-    return render_template('schedule.html', schedule_date=schedule_date, inspections=inspections)
+    return render_template('inspections/schedule.html', schedule_date=schedule_date, inspections=inspections)
 
 @app.route('/tomorrows_schedule')
 def show_tomorrows_schedule():
@@ -375,20 +376,20 @@ def show_tomorrows_schedule():
 
     schedule_date = date.today() + timedelta(days=1)
     inspections = Inspection.get_inspections().filter(Inspection.date==schedule_date).all()
-    return render_template('schedule.html', schedule_date=schedule_date, inspections=inspections)    
+    return render_template('inspections/schedule.html', schedule_date=schedule_date, inspections=inspections)    
 
 # building dept contacts routes
 @app.route('/building_depts/<int:bdid>/contacts')
 def show_bd_contacts(bdid):
     """Show building department contacts for a specific building department"""
 
-    return render_template('bd_contacts.html')
+    return render_template('bd_contacts/bd_contacts.html')
 
 @app.route('/bd_contacts/<int:cid>')
 def show_bd_contact_details(cid):
 
     contact = Bd_contact.query.get_or_404(cid)
-    return render_template('bd_contact_details.html', contact=contact)
+    return render_template('bd_contacts/bd_contact_details.html', contact=contact)
 
 @app.route('/bd_contacts/add', methods=['GET', 'POST'])
 def handle_add_bd_contact():
@@ -420,7 +421,7 @@ def handle_add_bd_contact():
         db.session.commit()
         return redirect(f'/bd_contacts/{new_contact.id}')
     else:
-        return render_template('add_bd_contact.html', form=form)
+        return render_template('bd_contacts/add_bd_contact.html', form=form)
     
 @app.route('/bd_contacts/<int:cid>/edit', methods=['GET', 'POST'])
 def edit_bd_contact(cid):
@@ -444,7 +445,7 @@ def edit_bd_contact(cid):
         db.session.commit()
         return redirect(f'/bd_contacts/{cid}')
     else:
-        return render_template('edit_bd_contact.html', form=form, contact=contact)
+        return render_template('bd_contacts/edit_bd_contact.html', form=form, contact=contact)
 
 # sitters routes routes
 @app.route('/inspection_sitters')
@@ -452,14 +453,14 @@ def show_inspection_sitters():
     """Show list of all inspection sitters"""
 
     sitters = Inspection_sitter.query.all()
-    return render_template('inspection_sitters.html', sitters=sitters)
+    return render_template('inspection_sitters/inspection_sitters.html', sitters=sitters)
 
 @app.route('/inspection_sitters/<int:sid>')
 def show_inspection_sitter_details(sid):
     """Show details for specific inspection sitter instance"""
     
     sitter = Inspection_sitter.query.get_or_404(sid)
-    return render_template('inspection_sitter_details.html', sitter=sitter)
+    return render_template('inspection_sitters/inspection_sitter_details.html', sitter=sitter)
 
 @app.route('/inspection_sitters/add', methods=['GET', 'POST'])
 def handle_add_inspection_sitter():
@@ -478,7 +479,7 @@ def handle_add_inspection_sitter():
         db.session.commit()
         return redirect(f'/inspection_sitters/{new_sitter.id}')
     else:
-        return render_template('/add_inspection_sitter.html', form=form)
+        return render_template('inspection_sitters/add_inspection_sitter.html', form=form)
     
 @app.route('/inspection_sitters/<int:sid>/edit', methods=['GET', 'POST'])
 def edit_inspection_sitter(sid):
@@ -496,7 +497,7 @@ def edit_inspection_sitter(sid):
         db.session.commit()
         return redirect(f'/inspection_sitters/{sitter.id}')
     else:
-        return render_template('edit_inspection_sitter.html', form=form, sitter=sitter)
+        return render_template('inspection_sitters/edit_inspection_sitter.html', form=form, sitter=sitter)
 
 # Views related to dashboard and reporting
 

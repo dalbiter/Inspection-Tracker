@@ -2,14 +2,14 @@
 
 {% block title %}
 
-    Add New Team
+    Add New Client
     
 {% endblock %}
 
 {% block content %}
 
 <div class="container text-center" id="header">
-    <h1 class="text-white">Add a new installation team</h1>
+    <h1 class="text-white">Add a new client</h1>
 </div>
 
 <div class="container">
@@ -29,8 +29,8 @@
                     {% endfor %}
                 </div>
                 {% endfor %}
-                <button class="btn btn-info">Add Team</button>
-                <a href="/update_db" class="btn btn-warning">Cancel</a>
+                <button class="btn btn-primary">Add Client</button>
+                <a href="/clients" class="btn btn-warning">Cancel</a>
             </form>
         </div>
     </div>
