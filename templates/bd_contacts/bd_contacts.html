@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Contacts {{building_dept.name.title()}}
+{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center text-white mt-2 mb-5">Contacts for {{building_dept.name}}</h1>
+
+<div class="container text-center mt-3">
+    <a href="/bd_contacts/add" class="btn btn-primary">Add Contact</a>
+    <a href="/building_depts/{{building_dept.id}}" class="btn btn-secondary">Back</a>
+</div>
+
+    <div class="container text-center mt-3" id="schedule_div">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col"><strong>Name</strong></th>
+                    <th scope="col"><strong>Title</strong></th>
+                    <th scope="col"><strong>Cell Phone</strong></th>
+                    <th scope="col"><strong>Office Phone</strong></th>
+                    <th scope="col"><strong>Email</strong></th>
+                    <th scope="col"><strong>Notes</strong></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contact in contacts %}
+                <tr>
+                    <td>{{contact.get_full_name()}}</td>
+                    <td>{{contact.title.title()}}</td>
+                    <td>{{contact.cell_phone}}</td>
+                    <td>{{contact.office_phone}}</td>    
+                    <td>{{contact.email}}</td>    
+                    <td>{{contact.notes}}</td>
+                    <td><a href="/bd_contacts/{{contact.id}}/edit">Edit</a></td>    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

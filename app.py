@@ -340,7 +340,10 @@ def edit_inspection(insp_id):
         inspection.to_close = form.to_close.data
         inspection.at_fault = form.at_fault.data
 
+        team = Installation_team.query.get_or_404(inspection.team_id)
+
         db.session.commit()
+        flash(f'Updated inspection for team: {team.team_name.title()} on {inspection.date}')
 
         return redirect('/inspections')
     else:
@@ -383,7 +386,10 @@ def show_tomorrows_schedule():
 def show_bd_contacts(bdid):
     """Show building department contacts for a specific building department"""
 
-    return render_template('bd_contacts/bd_contacts.html')
+    contacts = Bd_contact.query.filter_by(bd_id=bdid).all()
+    building_dept = Building_dept.query.get_or_404(bdid)
+
+    return render_template('bd_contacts/bd_contacts.html', contacts=contacts, building_dept=building_dept)
 
 @app.route('/bd_contacts/<int:cid>')
 def show_bd_contact_details(cid):
@@ -513,4 +519,4 @@ def show_dashboard():
 def show_update_db_menu():
     """Shows landing page for updating database"""
 
-    return render_template('update_db.html') 
+    return render_template('update_db.html')

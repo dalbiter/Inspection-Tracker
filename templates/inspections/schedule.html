@@ -9,7 +9,7 @@
 <h1 class="text-center text-white mt-2 mb-5">Schedule for {{schedule_date}}</h1>
 
 <div class="container text-center mt-3">
-    <a href="/inspections/add" class="btn btn-primary">Add An Inspection</a>
+    <a href="/inspections/add" class="btn btn-primary">Add an Inspection</a>
     <a href="/inspections" class="btn btn-secondary">Back</a>
 </div>
 
@@ -48,8 +48,16 @@
                         <td class="text-success">{{inspection.to_close}}</td>
                     {% else %}
                         <td></td>
-                    {% endif %}    
-                    <td>{{inspection.result.title()}}</td>
+                    {% endif %}
+                    {% if inspection.result == 'pass' %}    
+                    <td class="bg-success text-white">{{inspection.result.title()}}</td>
+                    {% elif inspection.result == 'fail' %}
+                    <td class="bg-danger">{{inspection.result.title()}}</td>
+                    {% elif inspection.result in ['cancel', 'rescheduled', 'partial'] %}
+                    <td class="bg-warning">{{inspection.result.title()}}</td>
+                    {% else %}
+                    <td class="">{{inspection.result.title()}}</td>
+                    {% endif %}
                     <td>{{inspection.notes}}</td>
                     <td><a href="/inspections/{{inspection.id}}/edit">Edit</a></td>     
                 </tr>

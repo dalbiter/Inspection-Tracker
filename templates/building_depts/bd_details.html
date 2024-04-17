@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} {{bd.name}}  {% endblock %}
+{% block title %} {{bd.name.title()}}  {% endblock %}
 
 {% block content %}
 
@@ -28,7 +28,10 @@
         <li class="list-group-item"><strong>Shutdown Procedure: </strong>{{bd.shutdown_procedure}}</li>
         <li class="list-group-item"><strong>Building Dept Website: </strong><a href="{{bd.website}}" target="_blank">{{bd.website}}</a></li>
         <li class="list-group-item"><strong>Inspection Portal: </strong><a href="{{bd.inspection_portal}}" target="_blank">{{bd.inspection_portal}}</a></li>
-        <li class="list-group-item"><strong>Contact List: </strong><a href="{{bd.contact_list}}" target="_blank">{{bd.contact_list}}</a></li>
+        {% if bd.contact_list %}
+        <li class="list-group-item"><strong>Contacts Link: </strong><a href="{{bd.contact_list}}" target="_blank">{{bd.contact_list}}</a></li>
+        {% endif %}
+        <li class="list-group-item"><strong>Contacts List: </strong><a href="/building_depts/{{bd.id}}/contacts">Contacts List</a></li>
         <li class="list-group-item"><strong>Notes: </strong>{{bd.notes}}</li>
     </ul>
     <form>
