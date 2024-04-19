@@ -4,16 +4,16 @@
 
 {% block content %}
 
-<div class="container text-center mt-4" id="header">
-    <h1 class="text-white">Viewing details for Job# {{project.job_number}}</h1>
+<div class="container text-center mt-4 p-0" id="header">
+    <h1 class="text-white bg-dark mb-0 p-1">Viewing details for Job# {{project.job_number}}</h1>
 </div>
 
-<div class="container bg-white mt-3">
+<div class="container bg-white">
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>Client Name: </strong>{{project.client.get_full_name().title()}}</li>
         <li class="list-group-item"><strong>Building Dept: </strong><a href="/building_depts/{{project.building_dept.id}}">{{project.building_dept.name.title()}}</a></li>
         <li class="list-group-item"><strong>Job #: </strong>{{project.job_number}}</li>
-        <li class="list-group-item"><strong>Job Link: </strong><a href="{{project.job_link}}">{{project.job_link}}</a></li>
+        <li class="list-group-item"><strong>Job Link: </strong><a href="{{project.job_link}}">View Project in Job Nimbus</a></li>
         <li class="list-group-item"><strong>Description: </strong>{{project.description}}</li>
         <li class="list-group-item"><strong>kWs: </strong>{{project.kws}}</li>
         <li class="list-group-item"><strong>Notes: </strong>{{project.notes}}</li>
@@ -25,7 +25,63 @@
             <button class="btn btn-secondary" formaction="/clients/{{project.client_id}}">Back to client</button>
         </div>
     </form>
-    
+</div>
+
+<div class="container text-center p-0">
+    <h4 class="text-white bg-dark mt-3 mb-0 p-1">
+        Project Inspections
+    </h4>
+</div>
+
+<div class="container text-center mt-0 p-0" id="schedule_div">
+    <table class="table table-striped ">
+        <thead>
+            <tr>
+                <th scope="col"><strong>Installation Team</strong></th>
+                <th scope="col"><strong>Sitter</strong></th>
+                <th scope="col"><strong>Inspection Date</strong></th>
+                <th scope="col"><strong>Building Dept</strong></th>
+                <th scope="col"><strong>State</strong></th>
+                <th scope="col"><strong>Type of Inspection</strong></th>
+                <th scope="col"><strong>To close?</strong></th>
+                <th scope="col"><strong>Result</strong></th>
+                <th scope="col"><strong>Notes</strong></th>
+                <th scope="col"><strong></strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inspection in project.inspections %}
+            <tr>
+                <td>{{inspection.installation_team.team_name.title()}}</td>
+                {% if inspection.sitter %}
+                    <td>{{inspection.sitter.get_full_name().title()}}</td>
+                {% else %}
+                <td></td>
+                {% endif %}         
+                <td>{{inspection.date}}</td>    
+                <td><a href="/building_depts/{{inspection.project.building_dept.id}}">{{inspection.project.building_dept.name.title()}}</a></td>    
+                <td>{{inspection.project.building_dept.state.upper()}}</td>    
+                <td><b>{{inspection.type.title()}}</b></td>
+                {% if inspection.to_close %}    
+                    <td class="text-success">{{inspection.to_close}}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                {% if inspection.result == 'pass' %}    
+                <td class="bg-success text-white">{{inspection.result.title()}}</td>
+                {% elif inspection.result == 'fail' %}
+                <td class="bg-danger">{{inspection.result.title()}}</td>
+                {% elif inspection.result in ['cancel', 'rescheduled', 'partial'] %}
+                <td class="bg-warning">{{inspection.result.title()}}</td>
+                {% else %}
+                <td class="">{{inspection.result.title()}}</td>
+                {% endif %}
+                <td>{{inspection.notes}}</td>
+                <td><a href="/inspections/{{inspection.id}}/edit">Edit</a></td>     
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 {% endblock %}

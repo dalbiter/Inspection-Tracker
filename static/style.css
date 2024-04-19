@@ -32,5 +32,8 @@ ul.no_bullets {
     opacity: 0.9;
 }
 
+.red_border {
+    border: 1px solid red;
+}
 
 

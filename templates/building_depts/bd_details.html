@@ -4,11 +4,11 @@
 
 {% block content %}
 
-<div class="container text-center mt-4" id="header">
-    <h1 class="text-white">{{bd.name.title()}} Details</h1>
+<div class="container text-center mt-4 p-0" id="header">
+    <h1 class="text-white bg-dark mb-0">{{bd.name.title()}} Details</h1>
 </div>
 
-<div class="container bg-white mt-3">
+<div class="container bg-white">
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>Name: </strong>{{bd.name.title()}}</li>
         <li class="list-group-item"><strong>State: </strong>{{bd.state.upper()}}</li>
