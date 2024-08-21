@@ -361,7 +361,11 @@ def delete_inspection(insp_id):
 def show_yesterdays_schedule():
     """Shows yesterday schedule"""
 
-    schedule_date = date.today() - timedelta(days=1)
+    if date.weekday(date.today()) == 0:
+        schedule_date = date.today() - timedelta(days=3)       
+    else:
+        schedule_date = date.today() - timedelta(days=1)
+
     inspections = Inspection.get_inspections().filter(Inspection.date==schedule_date).all()
     return render_template('inspections/schedule.html', schedule_date=schedule_date, inspections=inspections)
 
@@ -377,7 +381,11 @@ def show_todays_schedule():
 def show_tomorrows_schedule():
     """Shows tomorrows schedule"""
 
-    schedule_date = date.today() + timedelta(days=1)
+    if date.weekday(date.today()) == 4:
+        schedule_date = date.today() + timedelta(days=3)       
+    else:
+        schedule_date = date.today() + timedelta(days=1)
+
     inspections = Inspection.get_inspections().filter(Inspection.date==schedule_date).all()
     return render_template('inspections/schedule.html', schedule_date=schedule_date, inspections=inspections)    
 
