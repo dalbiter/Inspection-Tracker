@@ -4,11 +4,11 @@
 
 {% block content %}
 
-<div class="container text-center mt-4 p-0" id="header">
-    <h1 class="text-white bg-dark mb-0">{{bd.name.title()}} Details</h1>
+<div class="container text-center mt-4" id="header">
+    <h1 class="text-white">{{bd.name.title()}} Details</h1>
 </div>
 
-<div class="container bg-white">
+<div class="container bg-white mt-3">
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>Name: </strong>{{bd.name.title()}}</li>
         <li class="list-group-item"><strong>State: </strong>{{bd.state.upper()}}</li>
@@ -26,10 +26,10 @@
         {% endif %}
         <li class="list-group-item"><strong>PE Certification Notes: </strong>{{bd.pe_cert_notes}}</li>
         <li class="list-group-item"><strong>Shutdown Procedure: </strong>{{bd.shutdown_procedure}}</li>
-        <li class="list-group-item"><strong>Building Dept Website: </strong><a href="{{bd.website}}" target="_blank">{{bd.website}}</a></li>
-        <li class="list-group-item"><strong>Inspection Portal: </strong><a href="{{bd.inspection_portal}}" target="_blank">{{bd.inspection_portal}}</a></li>
+        <li class="list-group-item"><a href="{{bd.website}}" target="_blank"><strong>Building Dept Website</strong></a></li>
+        <li class="list-group-item"><a href="{{bd.inspection_portal}}" target="_blank"><strong>Inspection Portal</strong></a></li>
         {% if bd.contact_list %}
-        <li class="list-group-item"><strong>Contacts Link: </strong><a href="{{bd.contact_list}}" target="_blank">{{bd.contact_list}}</a></li>
+        <li class="list-group-item"><a href="{{bd.contact_list}}" target="_blank"><strong>Contacts Link</strong></a></li>
         {% endif %}
         <li class="list-group-item"><strong>Contacts List: </strong><a href="/building_depts/{{bd.id}}/contacts">Contacts List</a></li>
         <li class="list-group-item"><strong>Notes: </strong>{{bd.notes}}</li>
